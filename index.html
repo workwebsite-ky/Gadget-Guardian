@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Gadget Guardian – Premium Electronics Store. Shop the latest smartphones, laptops, audio, and smart home devices. Expert advice and unbeatable prices."/>
+<meta name="keywords" content="electronics store, smartphones, laptops, audio, smart home, gadgets, premium electronics"/>
+<title>Gadget Guardian – Premium Electronics Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080c14;
+  --bg2: #0d1320;
+  --bg3: #111827;
+  --surface: #151d2e;
+  --surface2: #1a2540;
+  --cyan: #00e5ff;
+  --cyan2: #00b8d4;
+  --electric: #3d8bff;
+  --electric2: #1a6aff;
+  --gold: #f5a623;
+  --text: #e8edf5;
+  --text2: #8a9ab5;
+  --text3: #556070;
+  --border: rgba(0,229,255,0.12);
+  --border2: rgba(61,139,255,0.15);
+  --glow-cyan: 0 0 30px rgba(0,229,255,0.25);
+  --glow-electric: 0 0 30px rgba(61,139,255,0.3);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+h1,h2,h3,h4,h5 { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.02em; }
+
+/* ===== LOADING SCREEN ===== */
+#loader {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 24px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.loader-logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2.4rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.loader-bar-track {
+  width: 220px; height: 3px;
+  background: var(--surface2);
+  border-radius: 99px; overflow: hidden;
+}
+.loader-bar {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--cyan), var(--electric));
+  border-radius: 99px;
+  animation: loadBar 1.8s ease forwards;
+}
+@keyframes loadBar { to { width: 100%; } }
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%;
+  height: 72px;
+  background: rgba(8,12,20,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+nav.scrolled { background: rgba(8,12,20,0.97); }
+
+.nav-logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: var(--text); text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+}
+.nav-logo span { color: var(--cyan); }
+.logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+
+.nav-links {
+  display: flex; align-items: center; gap: 8px;
+  list-style: none;
+}
+.nav-links a {
+  text-decoration: none; color: var(--text2);
+  font-size: 0.9rem; font-weight: 500;
+  padding: 8px 16px; border-radius: 8px;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--cyan);
+  background: rgba(0,229,255,0.08);
+}
+
+.nav-cta {
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  color: var(--bg) !important;
+  font-weight: 600 !important;
+  padding: 8px 20px !important;
+  border-radius: 8px !important;
+}
+.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 4px;
+}
+.hamburger span {
+  width: 24px; height: 2px;
+  background: var(--text); border-radius: 2px;
+  transition: all var(--transition);
+}
+
+.mobile-menu {
+  display: none; position: fixed;
+  top: 72px; left: 0; right: 0;
+  background: rgba(8,12,20,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 5%;
+  flex-direction: column; gap: 8px;
+  z-index: 999;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  text-decoration: none; color: var(--text2);
+  font-size: 1rem; padding: 12px 16px;
+  border-radius: 8px;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+.mobile-menu a:hover { color: var(--cyan); background: rgba(0,229,255,0.08); }
+
+/* ===== PAGE SYSTEM ===== */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ===== SHARED SECTIONS ===== */
+.section { padding: 100px 5%; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 16px;
+}
+.section-tag::before {
+  content: ''; display: block;
+  width: 24px; height: 2px;
+  background: var(--cyan);
+  border-radius: 2px;
+}
+.section-title {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700; line-height: 1.15;
+  margin-bottom: 20px;
+}
+.section-sub {
+  color: var(--text2); font-size: 1.05rem;
+  line-height: 1.7; max-width: 600px;
+}
+.gradient-text {
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  color: var(--bg); font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.05em;
+  padding: 14px 32px; border-radius: var(--radius-sm);
+  border: none; cursor: pointer; text-decoration: none;
+  transition: all var(--transition);
+  box-shadow: 0 4px 20px rgba(0,229,255,0.25);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,229,255,0.4);
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  color: var(--cyan); font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: 0.05em;
+  padding: 13px 32px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--cyan); cursor: pointer; text-decoration: none;
+  transition: all var(--transition);
+}
+.btn-outline:hover {
+  background: rgba(0,229,255,0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-cyan);
+}
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--surface); color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem; font-weight: 600;
+  padding: 13px 28px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); cursor: pointer; text-decoration: none;
+  transition: all var(--transition);
+}
+.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,0.06); }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: all var(--transition);
+  overflow: hidden;
+  position: relative;
+}
+.card::before {
+  content: ''; position: absolute;
+  inset: 0; border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(0,229,255,0.04), transparent);
+  opacity: 0; transition: opacity var(--transition);
+}
+.card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.4), var(--glow-cyan); }
+.card:hover::before { opacity: 1; }
+
+/* ===== SCROLL ANIMATIONS ===== */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ===== GRID NOISE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300e5ff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.4;
+}
+
+/* ===================== HOME PAGE ===================== */
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 5% 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0,229,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 30% 80%, rgba(61,139,255,0.08) 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 700px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 99px; padding: 6px 16px; margin-bottom: 28px;
+  font-size: 0.82rem; color: var(--cyan); font-weight: 500;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.hero h1 {
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700; line-height: 1.08;
+  margin-bottom: 24px;
+}
+.hero-sub {
+  font-size: 1.15rem; color: var(--text2);
+  line-height: 1.75; margin-bottom: 40px;
+  max-width: 540px;
+}
+.hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.hero-visual {
+  position: absolute; right: 5%; top: 50%;
+  transform: translateY(-50%);
+  width: min(480px, 42vw);
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-device {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(0,229,255,0.08);
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-16px); }
+}
+.hero-device-img {
+  width: 100%; border-radius: 14px;
+  background: linear-gradient(135deg, var(--bg2), var(--surface2));
+  aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.hero-device-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+.hero-device-badge {
+  position: absolute; bottom: -16px; left: -16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.badge-icon { font-size: 1.5rem; }
+.badge-text { font-size: 0.78rem; color: var(--text2); }
+.badge-val { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--cyan); }
+
+/* Stats strip */
+.stats-strip {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 5%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  position: relative; z-index: 1;
+}
+.stat-item {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+.stat-item:not(:last-child)::after {
+  content: ''; position: absolute;
+  right: 0; top: 20%; bottom: 20%;
+  width: 1px; background: var(--border);
+}
+.stat-number {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 2.6rem; font-weight: 700;
+  color: var(--cyan); line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 0.85rem; color: var(--text2); }
+
+/* Featured Categories */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+.cat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative; overflow: hidden;
+  text-decoration: none;
+}
+.cat-card::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cyan), var(--electric));
+  transform: scaleX(0); transition: transform var(--transition);
+  transform-origin: left;
+}
+.cat-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.35), var(--glow-cyan); }
+.cat-card:hover::after { transform: scaleX(1); }
+.cat-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+.cat-name { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+.cat-desc { font-size: 0.88rem; color: var(--text2); line-height: 1.6; margin-bottom: 20px; }
+.cat-arrow { color: var(--cyan); font-size: 1.1rem; transition: transform var(--transition); }
+.cat-card:hover .cat-arrow { transform: translateX(6px); }
+
+/* Featured Products */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+.product-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.4), var(--glow-cyan); }
+.product-img {
+  aspect-ratio: 1; overflow: hidden;
+  background: linear-gradient(135deg, var(--bg2), var(--surface2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem;
+  position: relative;
+}
+.product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition); }
+.product-card:hover .product-img img { transform: scale(1.05); }
+.product-badge-hot {
+  position: absolute; top: 12px; left: 12px;
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  color: var(--bg); font-size: 0.7rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 6px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.product-info { padding: 20px; }
+.product-name { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+.product-brand { font-size: 0.8rem; color: var(--text2); margin-bottom: 12px; }
+.product-price-row { display: flex; align-items: center; justify-content: space-between; }
+.product-price { font-family: 'Rajdhani', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--cyan); }
+.product-old-price { font-size: 0.85rem; color: var(--text3); text-decoration: line-through; }
+.product-cart-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.2);
+  color: var(--cyan); font-size: 1rem;
+  cursor: pointer; transition: all var(--transition);
+  display: flex; align-items: center; justify-content: center;
+}
+.product-cart-btn:hover { background: var(--cyan); color: var(--bg); }
+
+/* Why Choose Us */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+.why-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  transition: all var(--transition);
+}
+.why-card:hover { border-color: rgba(0,229,255,0.25); transform: translateY(-4px); }
+.why-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(61,139,255,0.1));
+  border: 1px solid rgba(0,229,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; margin-bottom: 24px;
+}
+.why-title { font-family: 'Rajdhani', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
+.why-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.65; }
+
+/* Testimonials */
+.testimonials-section { background: var(--bg2); }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 56px;
+}
+.testi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: all var(--transition);
+}
+.testi-card:hover { border-color: rgba(0,229,255,0.25); transform: translateY(-4px); }
+.testi-stars { color: var(--gold); font-size: 1rem; margin-bottom: 18px; letter-spacing: 2px; }
+.testi-text { font-size: 0.93rem; color: var(--text2); line-height: 1.7; margin-bottom: 24px; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 14px; }
+.testi-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700;
+  color: var(--bg); flex-shrink: 0;
+}
+.testi-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem; }
+.testi-role { font-size: 0.8rem; color: var(--text3); }
+
+/* CTA Section */
+.cta-section {
+  padding: 100px 5%;
+  background: var(--bg);
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,229,255,0.06) 0%, transparent 70%);
+}
+.cta-inner {
+  position: relative; z-index: 1;
+  max-width: 700px; margin: 0 auto;
+  text-align: center;
+}
+.cta-inner .section-title { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 18px; }
+.cta-inner .section-sub { margin: 0 auto 40px; text-align: center; }
+.cta-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+/* FAQ */
+.faq-grid { margin-top: 56px; max-width: 800px; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 0; cursor: pointer;
+  font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 600;
+  color: var(--text); transition: color var(--transition);
+}
+.faq-q:hover { color: var(--cyan); }
+.faq-icon {
+  font-size: 1.3rem; color: var(--text3);
+  transition: transform var(--transition), color var(--transition);
+  flex-shrink: 0;
+}
+.faq-item.open .faq-icon { transform: rotate(45deg); color: var(--cyan); }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+.faq-a-inner { padding-bottom: 20px; font-size: 0.92rem; color: var(--text2); line-height: 1.7; }
+.faq-item.open .faq-a { max-height: 300px; }
+
+/* ===================== SERVICES PAGE ===================== */
+.page-hero {
+  padding: 160px 5% 80px;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+.page-hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,229,255,0.06) 0%, transparent 60%),
+    linear-gradient(to bottom, rgba(0,229,255,0.03) 0px, transparent 300px);
+}
+.page-hero h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 700; margin-bottom: 16px; position: relative; z-index: 1; }
+.page-hero p { font-size: 1.05rem; color: var(--text2); position: relative; z-index: 1; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+.services-list { display: flex; flex-direction: column; gap: 24px; margin-top: 56px; }
+.service-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  display: grid; grid-template-columns: 80px 1fr auto;
+  gap: 28px; align-items: center;
+  transition: all var(--transition);
+}
+.service-item:hover { border-color: rgba(0,229,255,0.3); transform: translateX(6px); box-shadow: var(--glow-cyan); }
+.service-item-icon {
+  width: 72px; height: 72px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(0,229,255,0.12), rgba(61,139,255,0.08));
+  border: 1px solid rgba(0,229,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
+.service-item-name { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+.service-item-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.65; }
+.service-item-tag {
+  background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2);
+  color: var(--cyan); font-size: 0.78rem; font-weight: 600;
+  padding: 6px 14px; border-radius: 99px;
+  white-space: nowrap; text-align: center;
+  font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em;
+}
+
+/* ===================== PACKAGES PAGE ===================== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px; margin-top: 56px;
+  align-items: start;
+}
+.pricing-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  position: relative; overflow: hidden;
+  transition: all var(--transition);
+}
+.pricing-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+.pricing-card.featured {
+  border-color: var(--cyan);
+  background: linear-gradient(160deg, rgba(0,229,255,0.06) 0%, var(--surface) 60%);
+  box-shadow: 0 0 40px rgba(0,229,255,0.12);
+}
+.pricing-card.featured:hover { box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 50px rgba(0,229,255,0.2); }
+.popular-badge {
+  position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  color: var(--bg); font-size: 0.72rem; font-weight: 700;
+  padding: 5px 18px; border-radius: 0 0 10px 10px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: 'Rajdhani', sans-serif;
+}
+.pricing-tier { font-size: 0.8rem; color: var(--text3); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.pricing-name { font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 24px; }
+.pricing-price {
+  display: flex; align-items: flex-end; gap: 6px;
+  margin-bottom: 8px;
+}
+.price-curr { font-size: 1.2rem; color: var(--cyan); font-weight: 600; padding-bottom: 8px; }
+.price-val { font-family: 'Rajdhani', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--text); line-height: 1; }
+.price-period { font-size: 0.85rem; color: var(--text3); padding-bottom: 8px; }
+.pricing-desc { font-size: 0.88rem; color: var(--text2); margin-bottom: 28px; line-height: 1.6; }
+.pricing-divider { height: 1px; background: var(--border); margin-bottom: 28px; }
+.pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+.pricing-features li {
+  font-size: 0.9rem; color: var(--text2);
+  display: flex; align-items: center; gap: 10px;
+}
+.pricing-features li::before {
+  content: '✓'; color: var(--cyan); font-weight: 700;
+  font-size: 0.85rem; flex-shrink: 0;
+}
+.pricing-features li.no::before { content: '✕'; color: var(--text3); }
+.pricing-features li.no { color: var(--text3); }
+
+/* ===================== ABOUT PAGE ===================== */
+.about-hero { padding: 160px 5% 80px; }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+  margin-top: 56px;
+}
+.about-img-container {
+  position: relative;
+}
+.about-img {
+  width: 100%; border-radius: var(--radius);
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, var(--bg2), var(--surface2));
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.about-img img { width: 100%; height: 100%; object-fit: cover; }
+.about-img-badge {
+  position: absolute; bottom: -20px; right: -20px;
+  background: var(--surface);
+  border: 1px solid var(--cyan);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  box-shadow: var(--glow-cyan);
+}
+.about-img-badge .badge-val { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: var(--cyan); display: block; }
+.about-img-badge .badge-text { font-size: 0.8rem; color: var(--text2); }
+.about-content { }
+.about-title { font-family: 'Rajdhani', sans-serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.2; margin-bottom: 24px; }
+.about-body { font-size: 0.95rem; color: var(--text2); line-height: 1.75; margin-bottom: 20px; }
+.trust-badges {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px; margin-top: 40px;
+}
+.trust-badge {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  display: flex; align-items: center; gap: 14px;
+  transition: border-color var(--transition);
+}
+.trust-badge:hover { border-color: rgba(0,229,255,0.3); }
+.trust-badge-icon { font-size: 1.5rem; }
+.trust-badge-text { font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 600; }
+
+.mission-section { padding: 80px 5%; background: var(--bg2); }
+.mission-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+.mission-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 32px 28px;
+  transition: all var(--transition);
+}
+.mission-card:hover { border-color: rgba(0,229,255,0.3); transform: translateY(-4px); }
+.mission-card-icon { font-size: 2.2rem; margin-bottom: 20px; display: block; }
+.mission-card-title { font-family: 'Rajdhani', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
+.mission-card-text { font-size: 0.9rem; color: var(--text2); line-height: 1.65; }
+
+/* ===================== CONTACT PAGE ===================== */
+.contact-section { padding: 160px 5% 80px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; margin-top: 56px; }
+.contact-info-title { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; }
+.contact-info-text { font-size: 0.92rem; color: var(--text2); line-height: 1.7; margin-bottom: 40px; }
+.contact-items { display: flex; flex-direction: column; gap: 20px; }
+.contact-item {
+  display: flex; align-items: flex-start; gap: 16px;
+}
+.contact-item-icon {
+  width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+  background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.2);
+  display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+.contact-item-label { font-size: 0.78rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.contact-item-val { font-size: 0.95rem; color: var(--text); font-weight: 500; }
+.contact-item-val a { color: var(--cyan); text-decoration: none; }
+.contact-item-val a:hover { text-decoration: underline; }
+
+.contact-form {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 48px 40px;
+}
+.form-title { font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 32px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group.full { grid-column: 1/-1; }
+.form-label { font-size: 0.82rem; font-weight: 500; color: var(--text2); letter-spacing: 0.05em; }
+.form-input, .form-textarea, .form-select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
+  width: 100%; outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1);
+}
+.form-textarea { resize: vertical; min-height: 140px; }
+.form-select option { background: var(--bg); }
+.form-submit {
+  margin-top: 8px; width: 100%;
+  justify-content: center;
+  font-size: 1.05rem; padding: 16px;
+}
+.form-success {
+  display: none; text-align: center; padding: 24px;
+  background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.2);
+  border-radius: var(--radius-sm); margin-top: 20px;
+  color: var(--cyan); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem;
+}
+.map-embed {
+  margin-top: 60px; border-radius: var(--radius);
+  overflow: hidden; border: 1px solid var(--border);
+  height: 320px;
+}
+.map-embed iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate(180deg); }
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 80px 5% 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 48px; margin-bottom: 60px;
+}
+.footer-brand p { font-size: 0.88rem; color: var(--text2); line-height: 1.7; margin-top: 16px; margin-bottom: 24px; max-width: 280px; }
+.footer-socials { display: flex; gap: 10px; }
+.social-btn {
+  width: 38px; height: 38px; border-radius: 9px;
+  background: var(--surface); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; cursor: pointer; text-decoration: none; color: var(--text2);
+  transition: all var(--transition);
+}
+.social-btn:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,0.08); }
+.footer-col-title { font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 20px; color: var(--text); }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links li a {
+  font-size: 0.88rem; color: var(--text2); text-decoration: none;
+  transition: color var(--transition); cursor: pointer;
+}
+.footer-links li a:hover { color: var(--cyan); }
+.footer-newsletter p { font-size: 0.88rem; color: var(--text2); line-height: 1.6; margin-bottom: 16px; }
+.newsletter-form { display: flex; gap: 8px; }
+.newsletter-input {
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none;
+  transition: border-color var(--transition);
+}
+.newsletter-input:focus { border-color: var(--cyan); }
+.newsletter-btn {
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  border: none; border-radius: 8px; padding: 10px 16px;
+  color: var(--bg); font-weight: 700; cursor: pointer;
+  font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;
+  transition: opacity var(--transition);
+}
+.newsletter-btn:hover { opacity: 0.85; }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-bottom p { font-size: 0.82rem; color: var(--text3); }
+.footer-bottom-links { display: flex; gap: 24px; }
+.footer-bottom-links a { font-size: 0.82rem; color: var(--text3); text-decoration: none; transition: color var(--transition); cursor: pointer; }
+.footer-bottom-links a:hover { color: var(--cyan); }
+
+/* Back to top */
+#backToTop {
+  position: fixed; bottom: 32px; right: 32px;
+  width: 48px; height: 48px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  border: none; color: var(--bg); font-size: 1.2rem;
+  cursor: pointer; z-index: 500;
+  transition: all var(--transition);
+  opacity: 0; visibility: hidden;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,229,255,0.3);
+}
+#backToTop.visible { opacity: 1; visibility: visible; }
+#backToTop:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,229,255,0.4); }
+
+/* Quick contact */
+#quickContact {
+  position: fixed; bottom: 32px; left: 32px;
+  z-index: 500;
+  display: flex; flex-direction: column; gap: 10px;
+  align-items: flex-start;
+}
+.quick-btn {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 16px;
+  text-decoration: none; color: var(--text);
+  font-size: 0.88rem; font-weight: 500;
+  transition: all var(--transition);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.quick-btn:hover { border-color: var(--cyan); color: var(--cyan); transform: translateX(4px); }
+.quick-btn-icon { font-size: 1.1rem; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+  .stat-item:nth-child(2)::after { display: none; }
+  .hero-visual { display: none; }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-img-badge { right: 20px; bottom: -16px; }
+  .mission-grid { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .service-item { grid-template-columns: 64px 1fr; }
+  .service-item-tag { grid-column: 1/-1; width: fit-content; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .mission-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .contact-form { padding: 32px 24px; }
+  .trust-badges { grid-template-columns: 1fr; }
+  #quickContact { display: none; }
+  .service-item { grid-template-columns: 1fr; gap: 16px; padding: 28px 24px; }
+  .service-item-icon { width: 56px; height: 56px; font-size: 1.5rem; }
+}
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.4rem; }
+  .hero-btns { flex-direction: column; }
+  .section { padding: 70px 5%; }
+  .stats-strip { grid-template-columns: 1fr 1fr; }
+  .stat-item:nth-child(2)::after { display: none; }
+  .newsletter-form { flex-direction: column; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">⚡ Gadget Guardian</div>
+  <div class="loader-bar-track"><div class="loader-bar"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="logo-icon">⚡</div>
+    Gadget <span>Guardian</span>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+    <li><a onclick="showPage('packages')" id="nav-packages">Packages</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="showPage('home');toggleMenu()">Home</a>
+  <a onclick="showPage('services');toggleMenu()">Services</a>
+  <a onclick="showPage('packages');toggleMenu()">Packages</a>
+  <a onclick="showPage('about');toggleMenu()">About</a>
+  <a onclick="showPage('contact');toggleMenu()">Contact Us</a>
+</div>
+
+<!-- ================== HOME PAGE ================== -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        Premium Electronics Store — Karachi's Finest
+      </div>
+      <h1>Guard Your Tech.<br/><span class="gradient-text">Elevate Your Life.</span></h1>
+      <p class="hero-sub">Discover the latest smartphones, laptops, audio gear, and smart home devices. Expert advice, genuine products, unbeatable prices — your trusted gadget guardian since 2015.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('services')">🛍️ Shop Now</button>
+        <button class="btn-outline" onclick="showPage('packages')">View Packages</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-device">
+        <div class="hero-device-img">
+          <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&q=80" alt="Premium electronics showcase"/>
+        </div>
+        <div class="hero-device-badge">
+          <div class="badge-icon">⭐</div>
+          <div>
+            <div class="badge-val">4.9/5</div>
+            <div class="badge-text">Customer Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-number" data-target="10000">0</div>
+      <div class="stat-label">Happy Customers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="500">0</div>
+      <div class="stat-label">Products Available</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="50">0</div>
+      <div class="stat-label">Top Brands</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="9">0</div>
+      <div class="stat-label">Years of Excellence</div>
+    </div>
+  </div>
+
+  <!-- Featured Categories -->
+  <section class="section">
+    <div class="section-tag">What We Offer</div>
+    <h2 class="section-title reveal">Browse Our <span class="gradient-text">Categories</span></h2>
+    <p class="section-sub reveal reveal-delay-1">From cutting-edge smartphones to smart home ecosystems — we carry everything your digital life demands.</p>
+
+    <div class="categories-grid">
+      <div class="cat-card reveal" onclick="showPage('services')">
+        <span class="cat-icon">📱</span>
+        <div class="cat-name">Smartphones & Tablets</div>
+        <div class="cat-desc">Latest iPhones, Samsung Galaxy, Xiaomi, and more. Flagship and budget picks available.</div>
+        <span class="cat-arrow">→</span>
+      </div>
+      <div class="cat-card reveal reveal-delay-1" onclick="showPage('services')">
+        <span class="cat-icon">💻</span>
+        <div class="cat-name">Laptops & PCs</div>
+        <div class="cat-desc">MacBooks, gaming laptops, ultrabooks, and workstations for every professional need.</div>
+        <span class="cat-arrow">→</span>
+      </div>
+      <div class="cat-card reveal reveal-delay-2" onclick="showPage('services')">
+        <span class="cat-icon">🎧</span>
+        <div class="cat-name">Audio & Headphones</div>
+        <div class="cat-desc">Premium earbuds, studio headphones, speakers, and home audio setups.</div>
+        <span class="cat-arrow">→</span>
+      </div>
+      <div class="cat-card reveal" onclick="showPage('services')">
+        <span class="cat-icon">🏠</span>
+        <div class="cat-name">Smart Home</div>
+        <div class="cat-desc">Smart bulbs, cameras, doorbells, and complete home automation solutions.</div>
+        <span class="cat-arrow">→</span>
+      </div>
+      <div class="cat-card reveal reveal-delay-1" onclick="showPage('services')">
+        <span class="cat-icon">⌚</span>
+        <div class="cat-name">Wearables</div>
+        <div class="cat-desc">Smartwatches, fitness trackers, and health monitoring devices for active lifestyles.</div>
+        <span class="cat-arrow">→</span>
+      </div>
+      <div class="cat-card reveal reveal-delay-2" onclick="showPage('services')">
+        <span class="cat-icon">🎮</span>
+        <div class="cat-name">Gaming Gear</div>
+        <div class="cat-desc">Consoles, gaming peripherals, VR headsets, and accessories for every gamer.</div>
+        <span class="cat-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="section" style="padding-top:0; background: var(--bg2);">
+    <div class="section-tag">Bestsellers</div>
+    <h2 class="section-title reveal">Featured <span class="gradient-text">Products</span></h2>
+    <p class="section-sub reveal reveal-delay-1">Handpicked top sellers — the gadgets our customers love most.</p>
+
+    <div class="products-grid">
+      <div class="product-card reveal">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&q=80" alt="iPhone 15 Pro"/>
+          <div class="product-badge-hot">Hot</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">iPhone 15 Pro</div>
+          <div class="product-brand">Apple</div>
+          <div class="product-price-row">
+            <div>
+              <div class="product-price">PKR 349,999</div>
+              <div class="product-old-price">PKR 389,999</div>
+            </div>
+            <button class="product-cart-btn" onclick="addedToCart(event)">🛒</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=80" alt="MacBook Pro"/>
+          <div class="product-badge-hot">New</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">MacBook Pro M3</div>
+          <div class="product-brand">Apple</div>
+          <div class="product-price-row">
+            <div>
+              <div class="product-price">PKR 549,999</div>
+              <div class="product-old-price">PKR 599,999</div>
+            </div>
+            <button class="product-cart-btn" onclick="addedToCart(event)">🛒</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80" alt="Sony WH-1000XM5"/>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Sony WH-1000XM5</div>
+          <div class="product-brand">Sony</div>
+          <div class="product-price-row">
+            <div>
+              <div class="product-price">PKR 89,999</div>
+              <div class="product-old-price">PKR 109,999</div>
+            </div>
+            <button class="product-cart-btn" onclick="addedToCart(event)">🛒</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400&q=80" alt="Samsung Galaxy Watch"/>
+          <div class="product-badge-hot">Sale</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Galaxy Watch 6</div>
+          <div class="product-brand">Samsung</div>
+          <div class="product-price-row">
+            <div>
+              <div class="product-price">PKR 59,999</div>
+              <div class="product-old-price">PKR 74,999</div>
+            </div>
+            <button class="product-cart-btn" onclick="addedToCart(event)">🛒</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="section">
+    <div class="section-tag">Why Gadget Guardian</div>
+    <h2 class="section-title reveal">We're More Than <span class="gradient-text">Just a Store</span></h2>
+    <p class="section-sub reveal reveal-delay-1">Every product, every interaction, every after-sale moment — we're committed to excellence.</p>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">✅</div>
+        <div class="why-title">100% Genuine Products</div>
+        <div class="why-desc">Every item we sell is authentic, sourced directly from authorized distributors. No fakes, no compromises.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-icon">🛡️</div>
+        <div class="why-title">Warranty & Protection</div>
+        <div class="why-desc">Official manufacturer warranties on all products, plus our in-store repair and protection plans.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-icon">🚀</div>
+        <div class="why-title">Same-Day Delivery</div>
+        <div class="why-desc">Order before 3 PM and get your gadget delivered to your door in Karachi the same day.</div>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">💬</div>
+        <div class="why-title">Expert Tech Advice</div>
+        <div class="why-desc">Our trained specialists help you pick the perfect device — no upselling, just honest recommendations.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-icon">💳</div>
+        <div class="why-title">Flexible Payment</div>
+        <div class="why-desc">Easy installment plans, 0% EMI on select products, and all major payment methods accepted.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-icon">🔧</div>
+        <div class="why-title">In-Store Repair Lab</div>
+        <div class="why-desc">Professional repair services for all major brands — screen replacements, battery swaps, and more.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section testimonials-section">
+    <div class="section-tag">Customer Love</div>
+    <h2 class="section-title reveal">What Our <span class="gradient-text">Customers Say</span></h2>
+
+    <div class="testimonials-grid">
+      <div class="testi-card reveal">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Bought my iPhone 15 Pro here — received it the same evening, perfectly sealed, with full warranty card. The staff was incredibly helpful and didn't push unnecessary accessories."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">AK</div>
+          <div>
+            <div class="testi-name">Ahmad Khan</div>
+            <div class="testi-role">Verified Customer · Karachi</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Best electronics store in Karachi, hands down. Prices are competitive, products are genuine, and the after-sale support is outstanding. My go-to place for all tech purchases."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">SR</div>
+          <div>
+            <div class="testi-name">Sara Raza</div>
+            <div class="testi-role">Verified Customer · DHA</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Got my MacBook M3 on installment plan with zero hassle. The team processed everything in 20 minutes and threw in a free protective case. Extremely professional experience."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">MF</div>
+          <div>
+            <div class="testi-name">Muhammad Farhan</div>
+            <div class="testi-role">Verified Customer · Clifton</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title reveal">Frequently Asked <span class="gradient-text">Questions</span></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Are all products 100% original? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes, absolutely. Every product we sell comes from authorized distributors and carries the manufacturer's official warranty. We do not deal in grey market or refurbished items unless explicitly labeled.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do you offer installment plans? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes! We partner with major banks to offer 0% installment plans on select products. Plans range from 3 to 24 months. Visit our store or contact us to check eligibility.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is your return policy? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">We offer a 7-day return policy for sealed/unused products and a 14-day exchange policy for manufacturing defects. Products must be in original packaging with all accessories.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do you offer device repair services? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes, our in-store repair lab handles screen replacements, battery changes, water damage repairs, software issues, and more for all major smartphone and laptop brands.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I order online for home delivery? <span class="faq-icon">+</span></div>
+        <div class="faq-a"><div class="faq-a-inner">Yes! We offer same-day delivery within Karachi for orders placed before 3 PM. Contact us via WhatsApp or email to place your order.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div class="section-tag" style="justify-content:center">Get Started</div>
+      <h2 class="section-title reveal">Ready to <span class="gradient-text">Upgrade Your Tech?</span></h2>
+      <p class="section-sub reveal reveal-delay-1">Visit us in-store or get in touch — our experts are ready to help you find the perfect gadget.</p>
+      <div class="cta-btns reveal reveal-delay-2">
+        <button class="btn-primary" onclick="showPage('contact')">📩 Contact Us</button>
+        <button class="btn-outline" onclick="showPage('packages')">View Packages</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+<!-- END HOME -->
+
+<!-- ================== SERVICES PAGE ================== -->
+<div class="page" id="page-services">
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="section-tag" style="justify-content:center">Our Products</div>
+    <h1>Everything Tech, <span class="gradient-text">All in One Place</span></h1>
+    <p>Explore our full range of electronics categories — sourced from the world's leading brands and delivered to your door.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-tag">All Categories</div>
+    <h2 class="section-title reveal">Our Complete <span class="gradient-text">Product Range</span></h2>
+    <div class="services-list">
+      <div class="service-item reveal">
+        <div class="service-item-icon">📱</div>
+        <div>
+          <div class="service-item-name">Smartphones & Tablets</div>
+          <div class="service-item-desc">Shop the latest iPhones, Samsung Galaxy series, Google Pixel, Xiaomi, OnePlus, and more. We carry flagship, mid-range, and budget options for every need. All phones come with official PTA-approved warranty.</div>
+        </div>
+        <div class="service-item-tag">150+ Models</div>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item-icon">💻</div>
+        <div>
+          <div class="service-item-name">Laptops & Desktops</div>
+          <div class="service-item-desc">MacBooks, Dell XPS, HP Spectre, Lenovo ThinkPad, gaming laptops from ASUS ROG and MSI. Professional workstations and student-friendly ultrabooks — we have it all.</div>
+        </div>
+        <div class="service-item-tag">80+ Models</div>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item-icon">🎧</div>
+        <div>
+          <div class="service-item-name">Audio & Headphones</div>
+          <div class="service-item-desc">Premium true wireless earbuds, over-ear studio headphones, Bluetooth speakers, soundbars, and home theatre systems from Sony, Bose, Sennheiser, JBL, and Apple AirPods.</div>
+        </div>
+        <div class="service-item-tag">200+ Products</div>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item-icon">📺</div>
+        <div>
+          <div class="service-item-name">Smart TVs & Displays</div>
+          <div class="service-item-desc">4K OLED, QLED, and LED smart TVs from Samsung, LG, Sony, and TCL. Also including computer monitors, portable displays, and projectors for home and office.</div>
+        </div>
+        <div class="service-item-tag">60+ Models</div>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item-icon">⌚</div>
+        <div>
+          <div class="service-item-name">Wearables & Fitness Tech</div>
+          <div class="service-item-desc">Apple Watch, Samsung Galaxy Watch, Garmin, Fitbit, and Xiaomi smart bands. Health monitoring, GPS tracking, and stylish designs for active lifestyles.</div>
+        </div>
+        <div class="service-item-tag">40+ Models</div>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item-icon">🏠</div>
+        <div>
+          <div class="service-item-name">Smart Home & IoT</div>
+          <div class="service-item-desc">Google Nest, Amazon Echo, Philips Hue smart lighting, Ring doorbells, security cameras, smart plugs, and complete home automation bundles.</div>
+        </div>
+        <div class="service-item-tag">100+ Products</div>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item-icon">🎮</div>
+        <div>
+          <div class="service-item-name">Gaming Gear & Consoles</div>
+          <div class="service-item-desc">PlayStation 5, Xbox Series X, Nintendo Switch, gaming mice, keyboards, headsets, controllers, and high-refresh-rate gaming monitors from top brands.</div>
+        </div>
+        <div class="service-item-tag">Gaming Specialists</div>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-item-icon">🔧</div>
+        <div>
+          <div class="service-item-name">Repair & Support Services</div>
+          <div class="service-item-desc">Our certified technicians repair screens, replace batteries, fix water damage, and solve software issues for all major smartphone, tablet, and laptop brands. Quick turnaround guaranteed.</div>
+        </div>
+        <div class="service-item-tag">Expert Repairs</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" style="padding-top: 0">
+    <div class="cta-inner">
+      <h2 class="section-title">Can't Find <span class="gradient-text">What You Need?</span></h2>
+      <p class="section-sub" style="margin: 0 auto 36px; text-align:center">Contact us and we'll source it for you. Special orders welcome.</p>
+      <div class="cta-btns">
+        <button class="btn-primary" onclick="showPage('contact')">📩 Get in Touch</button>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- END SERVICES -->
+
+<!-- ================== PACKAGES PAGE ================== -->
+<div class="page" id="page-packages">
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="section-tag" style="justify-content:center">Membership Plans</div>
+    <h1>Choose Your <span class="gradient-text">Protection Plan</span></h1>
+    <p>Our device protection and loyalty packages keep you covered — from repairs to priority service and exclusive discounts.</p>
+  </div>
+
+  <section class="section">
+    <div class="section-tag">Plans & Pricing</div>
+    <h2 class="section-title reveal">Protection <span class="gradient-text">Packages</span></h2>
+    <p class="section-sub reveal reveal-delay-1">Annual plans designed to save you money and give you peace of mind on every gadget you own.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-name">Basic Guard</div>
+        <div class="pricing-price">
+          <span class="price-curr">PKR</span>
+          <span class="price-val">2,499</span>
+          <span class="price-period">/ year</span>
+        </div>
+        <div class="pricing-desc">Perfect for casual users who want basic protection and store benefits on a single device.</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>1 Device Covered</li>
+          <li>Screen Crack Protection</li>
+          <li>1 Free Battery Check / Year</li>
+          <li>5% Discount on All Purchases</li>
+          <li>Priority Repair Queue</li>
+          <li class="no">Accidental Drop Coverage</li>
+          <li class="no">Water Damage Coverage</li>
+          <li class="no">Dedicated Account Manager</li>
+        </ul>
+        <button class="btn-ghost" style="width:100%;justify-content:center" onclick="showPage('contact')">Get Started</button>
+      </div>
+
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <div class="popular-badge">Most Popular</div>
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-name">Guardian Shield</div>
+        <div class="pricing-price">
+          <span class="price-curr">PKR</span>
+          <span class="price-val">5,999</span>
+          <span class="price-period">/ year</span>
+        </div>
+        <div class="pricing-desc">Our most popular plan — comprehensive coverage for up to 3 devices with full accidental protection.</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Up to 3 Devices Covered</li>
+          <li>Screen Crack Protection</li>
+          <li>2 Free Battery Replacements</li>
+          <li>10% Discount on All Purchases</li>
+          <li>Priority Repair Queue</li>
+          <li>Accidental Drop Coverage</li>
+          <li>Water Damage Coverage</li>
+          <li class="no">Dedicated Account Manager</li>
+        </ul>
+        <button class="btn-primary" style="width:100%;justify-content:center" onclick="showPage('contact')">Choose Shield →</button>
+      </div>
+
+      <div class="pricing-card reveal reveal-delay-2">
+        <div class="pricing-tier">Elite</div>
+        <div class="pricing-name">Elite Fortress</div>
+        <div class="pricing-price">
+          <span class="price-curr">PKR</span>
+          <span class="price-val">11,999</span>
+          <span class="price-period">/ year</span>
+        </div>
+        <div class="pricing-desc">Ultimate protection for power users and families — unlimited devices, maximum savings, premium support.</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Unlimited Devices</li>
+          <li>Screen Crack Protection</li>
+          <li>Unlimited Battery Replacements</li>
+          <li>15% Discount on All Purchases</li>
+          <li>VIP Repair Queue (Same Day)</li>
+          <li>Accidental Drop Coverage</li>
+          <li>Water Damage Coverage</li>
+          <li>Dedicated Account Manager</li>
+        </ul>
+        <button class="btn-outline" style="width:100%;justify-content:center" onclick="showPage('contact')">Go Elite</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison note -->
+  <section style="padding: 0 5% 100px;">
+    <div style="max-width: 700px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px 40px; text-align: center;">
+      <div style="font-size: 1.8rem; margin-bottom: 16px;">🤝</div>
+      <h3 style="font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 12px;">Need a Custom Plan?</h3>
+      <p style="color: var(--text2); font-size: 0.92rem; line-height: 1.7; margin-bottom: 28px;">We work with businesses, schools, and organizations to create custom bulk protection and procurement packages. Let's talk.</p>
+      <button class="btn-primary" onclick="showPage('contact')">Request Custom Quote</button>
+    </div>
+  </section>
+</div>
+<!-- END PACKAGES -->
+
+<!-- ================== ABOUT PAGE ================== -->
+<div class="page" id="page-about">
+  <div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="section-tag" style="justify-content:center">Our Story</div>
+    <h1>The Guardians <span class="gradient-text">Behind the Gadgets</span></h1>
+    <p>Since 2015, we've been Karachi's most trusted electronics destination — built on authenticity, expertise, and a genuine love for technology.</p>
+  </div>
+
+  <section class="section about-hero">
+    <div class="about-grid">
+      <div class="about-img-container">
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=700&q=80" alt="Gadget Guardian store"/>
+        </div>
+        <div class="about-img-badge">
+          <span class="badge-val">9+</span>
+          <span class="badge-text">Years Trusted</span>
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="section-tag">Who We Are</div>
+        <h2 class="about-title">Karachi's <span class="gradient-text">Premier</span> Electronics Destination</h2>
+        <p class="about-body">Gadget Guardian was founded in 2015 with a single mission: to give people in Karachi access to genuine, premium electronics without the anxiety of grey-market products or shady retailers.</p>
+        <p class="about-body">What started as a small shop in DHA has grown into a full-scale electronics hub serving over 10,000 customers — from students buying their first laptop to professionals upgrading their entire home office.</p>
+        <p class="about-body">We believe technology should be accessible, authentic, and supported. That's why every product we sell comes with real warranties, expert advice, and after-sale service you can actually count on.</p>
+
+        <div class="trust-badges">
+          <div class="trust-badge">
+            <div class="trust-badge-icon">🏆</div>
+            <div class="trust-badge-text">Authorized Apple Reseller</div>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">✅</div>
+            <div class="trust-badge-text">Samsung Certified Dealer</div>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">🛡️</div>
+            <div class="trust-badge-text">PTA Approved Store</div>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">⭐</div>
+            <div class="trust-badge-text">4.9★ Customer Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="section-tag">Our Values</div>
+    <h2 class="section-title reveal">Mission, Vision & <span class="gradient-text">Values</span></h2>
+    <div class="mission-grid">
+      <div class="mission-card reveal">
+        <span class="mission-card-icon">🎯</span>
+        <div class="mission-card-title">Our Mission</div>
+        <div class="mission-card-text">To be Karachi's most trusted electronics retailer by providing 100% genuine products, transparent pricing, and world-class after-sale support that makes every customer feel secure in their purchase.</div>
+      </div>
+      <div class="mission-card reveal reveal-delay-1">
+        <span class="mission-card-icon">🔭</span>
+        <div class="mission-card-title">Our Vision</div>
+        <div class="mission-card-text">To expand across Pakistan as the go-to destination for premium electronics — a brand where "Gadget Guardian" means guaranteed authenticity, expert guidance, and lasting value.</div>
+      </div>
+      <div class="mission-card reveal reveal-delay-2">
+        <span class="mission-card-icon">💎</span>
+        <div class="mission-card-title">Our Values</div>
+        <div class="mission-card-text">Integrity in every transaction. Transparency in every price. Expertise in every recommendation. We treat every customer as a long-term relationship, not a one-time sale.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2 class="section-title reveal">Ready to <span class="gradient-text">Experience the Difference?</span></h2>
+      <p class="section-sub reveal reveal-delay-1" style="text-align:center;margin:0 auto 36px">Visit us in-store or reach out online — the Gadget Guardian team is here for you.</p>
+      <div class="cta-btns reveal reveal-delay-2">
+        <button class="btn-primary" onclick="showPage('contact')">📩 Get in Touch</button>
+        <button class="btn-outline" onclick="showPage('services')">Browse Products</button>
+      </div>
+    </div>
+  </section>
+</div>
+<!-- END ABOUT -->
+
+<!-- ================== CONTACT PAGE ================== -->
+<div class="page" id="page-contact">
+  <section class="contact-section">
+    <div class="section-tag">Reach Us</div>
+    <h1 class="section-title reveal">Let's <span class="gradient-text">Connect</span></h1>
+    <p class="section-sub reveal reveal-delay-1">Whether you have a question, want a quote, or need expert advice — we're here for you.</p>
+
+    <div class="contact-grid">
+      <div>
+        <div class="contact-info-title">We're Here to Help</div>
+        <div class="contact-info-text">Visit our showroom, send us an email, or drop a message on WhatsApp. Our team responds within the hour during business hours.</div>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon">📧</div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-val"><a href="mailto:contactglanders@gmail.com">contactglanders@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📱</div>
+            <div>
+              <div class="contact-item-label">WhatsApp / Phone</div>
+              <div class="contact-item-val"><a href="tel:+923001234567">+92 300 123 4567</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Location</div>
+              <div class="contact-item-val">DHA Phase 5, Karachi, Pakistan</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">🕐</div>
+            <div>
+              <div class="contact-item-label">Business Hours</div>
+              <div class="contact-item-val">Mon–Sat: 10:00 AM – 9:00 PM<br/>Sun: 12:00 PM – 7:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="contact-form">
+          <div class="form-title">Send Us a Message</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input class="form-input" type="text" placeholder="Your full name" id="fname"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input class="form-input" type="email" placeholder="your@email.com" id="femail"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input class="form-input" type="tel" placeholder="+92 300 000 0000" id="fphone"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select class="form-select" id="fsubject">
+                <option value="">Select a topic</option>
+                <option>Product Inquiry</option>
+                <option>Repair Service</option>
+                <option>Warranty Claim</option>
+                <option>Protection Plan</option>
+                <option>Bulk / Business Order</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Message *</label>
+              <textarea class="form-textarea" placeholder="Tell us how we can help you..." id="fmessage"></textarea>
+            </div>
+          </div>
+          <button class="btn-primary form-submit" onclick="submitForm()">Send Message →</button>
+          <div class="form-success" id="formSuccess">
+            ✅ Message sent! We'll get back to you within 1 hour.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-embed">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28951.46673742003!2d67.0601871!3d24.8139691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e25e5e4bc3b%3A0x59c0f3f16e1e4d5!2sDHA%20Phase%205%2C%20Karachi%2C%20Karachi%20City%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1699000000000!5m2!1sen!2s"
+        allowfullscreen loading="lazy">
+      </iframe>
+    </div>
+  </section>
+</div>
+<!-- END CONTACT -->
+
+<!-- ================== FOOTER ================== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="cursor:default; margin-bottom: 4px;">
+        <div class="logo-icon">⚡</div>
+        Gadget <span>Guardian</span>
+      </div>
+      <p>Karachi's premier electronics destination. Genuine products, expert advice, and unbeatable after-sale support since 2015.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#" title="Facebook">f</a>
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="Twitter/X">𝕏</a>
+        <a class="social-btn" href="https://wa.me/923001234567" target="_blank" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Quick Links</div>
+      <ul class="footer-links">
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('services')">Products</a></li>
+        <li><a onclick="showPage('packages')">Packages</a></li>
+        <li><a onclick="showPage('about')">About Us</a></li>
+        <li><a onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Categories</div>
+      <ul class="footer-links">
+        <li><a onclick="showPage('services')">Smartphones</a></li>
+        <li><a onclick="showPage('services')">Laptops</a></li>
+        <li><a onclick="showPage('services')">Audio</a></li>
+        <li><a onclick="showPage('services')">Smart Home</a></li>
+        <li><a onclick="showPage('services')">Gaming</a></li>
+        <li><a onclick="showPage('services')">Repairs</a></li>
+      </ul>
+    </div>
+    <div class="footer-newsletter">
+      <div class="footer-col-title">Stay Updated</div>
+      <p>Subscribe for exclusive deals, new arrivals, and tech tips delivered to your inbox.</p>
+      <div class="newsletter-form">
+        <input class="newsletter-input" type="email" placeholder="your@email.com" id="newsletterEmail"/>
+        <button class="newsletter-btn" onclick="subscribeNewsletter()">Join</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Gadget Guardian. All rights reserved. | <a href="mailto:contactglanders@gmail.com" style="color:var(--cyan)">contactglanders@gmail.com</a></p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Warranty Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to Top -->
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
+
+<!-- Quick Contact -->
+<div id="quickContact">
+  <a class="quick-btn" href="https://wa.me/923001234567" target="_blank">
+    <span class="quick-btn-icon">💬</span> WhatsApp Us
+  </a>
+  <a class="quick-btn" href="mailto:contactglanders@gmail.com">
+    <span class="quick-btn-icon">📧</span> Email Us
+  </a>
+</div>
+
+<script>
+// ===== PAGE NAVIGATION =====
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+
+  const targetPage = document.getElementById('page-' + page);
+  if (targetPage) {
+    targetPage.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const navEl = document.getElementById('nav-' + page);
+  if (navEl) navEl.classList.add('active');
+
+  // Trigger reveal animations
+  setTimeout(triggerReveal, 100);
+}
+
+// ===== LOADER =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+    triggerReveal();
+    animateCounters();
+  }, 2000);
+});
+
+// ===== SCROLL =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  const btt = document.getElementById('backToTop');
+  if (window.scrollY > 80) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+  if (window.scrollY > 400) btt.classList.add('visible'); else btt.classList.remove('visible');
+  triggerReveal();
+});
+
+// ===== REVEAL =====
+function triggerReveal() {
+  document.querySelectorAll('.reveal:not(.revealed)').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 60) el.classList.add('revealed');
+  });
+}
+
+// ===== COUNTER ANIMATION =====
+function animateCounters() {
+  document.querySelectorAll('[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const duration = 1800;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        el.textContent = target.toLocaleString() + (target >= 1000 ? '+' : '+');
+        clearInterval(timer);
+      } else {
+        el.textContent = Math.floor(current).toLocaleString();
+      }
+    }, 16);
+  });
+}
+
+// ===== HAMBURGER =====
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ===== FAQ =====
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ===== CART TOAST =====
+function addedToCart(e) {
+  const btn = e.target;
+  btn.textContent = '✓';
+  btn.style.background = 'var(--cyan)';
+  btn.style.color = 'var(--bg)';
+  setTimeout(() => {
+    btn.textContent = '🛒';
+    btn.style.background = '';
+    btn.style.color = '';
+  }, 1800);
+}
+
+// ===== CONTACT FORM =====
+function submitForm() {
+  const name = document.getElementById('fname').value.trim();
+  const email = document.getElementById('femail').value.trim();
+  const message = document.getElementById('fmessage').value.trim();
+  if (!name || !email || !message) {
+    alert('Please fill in required fields (Name, Email, Message).');
+    return;
+  }
+  // Mailto fallback
+  const subject = document.getElementById('fsubject').value || 'Inquiry from Gadget Guardian Website';
+  const body = `Name: ${name}\nEmail: ${email}\nPhone: ${document.getElementById('fphone').value}\nSubject: ${subject}\n\nMessage:\n${message}`;
+  window.location.href = `mailto:contactglanders@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+// ===== NEWSLETTER =====
+function subscribeNewsletter() {
+  const email = document.getElementById('newsletterEmail').value.trim();
+  if (!email) return;
+  alert('Thanks for subscribing! We\'ll keep you updated with the latest deals.');
+  document.getElementById('newsletterEmail').value = '';
+}
+
+// Init
+triggerReveal();
+</script>
+</body>
+</html>
